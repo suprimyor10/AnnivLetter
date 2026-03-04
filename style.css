@@ -1,0 +1,169 @@
+/* Import Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Playfair+Display:wght@700&display=swap');
+
+/* Body & background */
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(135deg, #EDE8D0, #fad0c4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+/* Boxes */
+.login-box, .letter {
+  background: #550000;
+  padding: 40px;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  text-align: center;
+  max-width: 600px;
+  
+  /* Text color */
+  color: #ffe6f0;
+  
+  /* Elegant font for letter content */
+  font-family: 'Merriweather', serif;
+}
+
+/* Letter headings & paragraph */
+.letter h1 {
+  font-family: 'Playfair Display', serif;
+  color: #ffb6c1;
+  font-size: 2.2em;
+  margin-bottom: 20px;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.letter p {
+  color: #ffe6f0;
+  font-size: 1.1em;
+  line-height: 1.5em;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+}
+
+/* Inputs */
+input {
+  padding: 10px;
+  margin: 10px;
+  width: 80%;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+}
+
+input::placeholder {
+  color: #ffd6e0;
+}
+
+/* Buttons */
+button {
+  padding: 10px 20px;
+  background: #ff4d6d;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 10px;
+  transition: 0.3s;
+}
+
+button:hover {
+  background: #e60039;
+  transform: scale(1.05);
+}
+
+/* Images */
+img {
+  width: 250px;
+  margin: 10px;
+  border-radius: 15px;
+}
+
+/* Letter animation */
+.letter {
+  position: relative;
+  overflow: hidden;
+  animation: fadeIn 2s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Fade-out animation for password page */
+.fade-out {
+  animation: fadeOut 1s forwards;
+}
+
+@keyframes fadeOut {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+/* Hearts background */
+.hearts {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+  z-index: -1;
+}
+
+.hearts span {
+  position: absolute;
+  display: block;
+  width: 15px;
+  height: 15px;
+  background: red;
+  transform: rotate(45deg);
+  opacity: 1;
+  pointer-events: none;
+  animation: float 10s linear infinite;
+}
+
+.hearts span::before,
+.hearts span::after {
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background: red;
+  border-radius: 50%;
+}
+
+.hearts span::before {
+  top: -10px;
+  left: 0;
+}
+
+.hearts span::after {
+  left: -10px;
+  top: 0;
+}
+
+@keyframes float {
+  0% { transform: translateY(100vh) rotate(45deg); }
+  100% { transform: translateY(-10vh) rotate(45deg); }
+}
+
+/* Sparkle effect */
+.sparkle {
+  position: absolute;
+  width: 5px;
+  height: 5px;
+  background: gold;
+  border-radius: 50%;
+  opacity: 0.8;
+  pointer-events: none;
+  animation: sparkle 1s linear infinite;
+}
+
+@keyframes sparkle {
+  0% { transform: translate(0, 0) scale(1); opacity: 1; }
+  50% { transform: translate(0, -20px) scale(0.5); opacity: 0.5; }
+  100% { transform: translate(0, 0) scale(1); opacity: 0; }
+}

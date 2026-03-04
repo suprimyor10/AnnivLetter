@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>For My Love ❤️</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Password Box -->
+  <div class="login-box" id="loginBox">
+    <h2>Enter Our Special Password 💖</h2>
+    <input type="password" id="password" placeholder="Password">
+    <button onclick="checkPassword()">Unlock</button>
+    <p id="error"></p>
+  </div>
+
+  <!-- Letter Box (hidden initially) -->
+  <div class="letter" id="letterBox" style="display:none;">
+    <h1>Happy 2nd Anniversary ❤️</h1>
+    <p id="typewriter"></p>
+    <div class="hearts"></div>
+  </div>
+
+  <!-- Background music -->
+  <audio id="bgMusic" loop>
+    <source src="song.mp3" type="audio/mpeg">
+  </audio>
+
+  <script>
+    function checkPassword() {
+      const password = document.getElementById("password").value;
+      const correctPassword = "ily";
+      const bgMusic = document.getElementById("bgMusic");
+
+      if (password === correctPassword) {
+        // Play music
+        if (bgMusic) bgMusic.play().catch(e => console.log("Music blocked:", e));
+
+        // Fade out login box
+        const loginBox = document.getElementById("loginBox");
+        loginBox.classList.add("fade-out");
+
+        setTimeout(() => {
+          loginBox.style.display = "none"; // hide password box
+          const letterBox = document.getElementById("letterBox");
+          letterBox.style.display = "block"; // show letter
+          letterBox.classList.add("fadeIn"); // animate
+          startEffects(); // start hearts, sparkles, typewriter
+        }, 1000);
+      } else {
+        document.getElementById("error").innerText = "Wrong password 🥺";
+      }
+    }
+
+    function startEffects() {
+      // Floating hearts
+      const heartsContainer = document.querySelector(".hearts");
+      if (heartsContainer) {
+        for (let i = 0; i < 25; i++) {
+          const heart = document.createElement("span");
+          heart.style.left = Math.random() * 100 + "vw";
+          heart.style.animationDuration = (5 + Math.random() * 5) + "s";
+          heart.style.opacity = Math.random();
+          heartsContainer.appendChild(heart);
+        }
+      }
+
+      // Heart fireworks
+      function heartFireworks() {
+        if (!heartsContainer) return;
+        setInterval(() => {
+          const heartCount = 5;
+          for (let i = 0; i < heartCount; i++) {
+            const heart = document.createElement("span");
+            heart.style.left = Math.random() * 100 + "vw";
+            heart.style.width = "15px";
+            heart.style.height = "15px";
+            heart.style.opacity = 1;
+            heart.style.background = "red";
+            heart.style.transform = "rotate(45deg)";
+            heart.style.position = "absolute";
+            heartsContainer.appendChild(heart);
+
+            const xMove = (Math.random() - 0.5) * 200;
+            const yMove = - (50 + Math.random() * 150);
+
+            heart.animate([
+              { transform: `translate(0,0) rotate(45deg)`, opacity: 1 },
+              { transform: `translate(${xMove}px, ${yMove}px) rotate(45deg)`, opacity: 0 }
+            ], { duration: 1500, easing: "ease-out" });
+
+            setTimeout(() => heart.remove(), 1500);
+          }
+        }, 1000);
+      }
+
+      heartFireworks();
+
+      // Sparkle effect
+      const letter = document.getElementById("letterBox");
+      if (letter) {
+        setInterval(() => {
+          const sparkle = document.createElement("div");
+          sparkle.classList.add("sparkle");
+          sparkle.style.left = Math.random() * letter.offsetWidth + "px";
+          sparkle.style.top = Math.random() * letter.offsetHeight + "px";
+          letter.appendChild(sparkle);
+          setTimeout(() => sparkle.remove(), 1000);
+        }, 300);
+      }
+
+      // Typewriter: full love letter
+      const text = `
+To my dearest Super Laloves, the one and only my Tia,
+
+Happy 2nd Anniversary! Who would’ve thought we’d make it to two years? Time really flies, and every day with you feels like a… war? JOKE! Spending most of my time with you makes me so happy, and I couldn’t ask for more than being with you for the rest of my life. You’re not just my girlfriend, you’re my family, my safe place, and my best friend.
+
+I still remember our first date, the way you talked to me, when you brought me to your dorm, and all our countless kisses. Do you still remember how we practiced our wedding? Our promises to each other, the way I kissed you as if we were in the aisle of a church… or that time when you spat your matcha on my hand! And all the nights we stayed up talking, laughing at countless jokes.
+
+Thank you, Kristia Liejh Yap, for letting me love you and for making me feel loved and happy every single day. I’ll always be right here when you need someone, and I’ll make sure I’m the first one there whenever you need me. I’ll be the one who loves you the most, protects you, shares your struggles, and celebrates your successes. I would give up everything just to be with you and make you happy. I will continue to love you until my last breath, mi amor.
+      `;
+      let i = 0;
+      function typeWriter() {
+        if (i < text.length) {
+          const el = document.getElementById("typewriter");
+          if (el) {
+            el.innerHTML += text.charAt(i) === '\n' ? '<br>' : text.charAt(i);
+            i++;
+            setTimeout(typeWriter, 130);
+          }
+        }
+      }
+      typeWriter();
+    }
+  </script>
+
+</body>
+</html>

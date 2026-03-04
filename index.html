@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>For My Love ❤️</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Password Box -->
+  <div class="login-box" id="loginBox">
+    <h2>Enter Our Special Password 💖</h2>
+    <input type="password" id="password" placeholder="Password">
+    <button onclick="checkPassword()">Unlock</button>
+    <p id="error"></p>
+  </div>
+
+  <!-- Letter Box (hidden initially) -->
+  <div class="letter" id="letterBox" style="display:none;">
+    <h1>Happy 2nd Anniversary ❤️</h1>
+    <p id="typewriter"></p>
+    <div class="hearts"></div>
+  </div>
+
+  <!-- Background music -->
+  <audio id="bgMusic" loop>
+    <source src="song.mp3" type="audio/mpeg">
+  </audio>
+
+  <script>
+    function checkPassword() {
+      const password = document.getElementById("password").value;
+      const correctPassword = "ily";
+      const bgMusic = document.getElementById("bgMusic");
+
+      if (password === correctPassword) {
+        // Play music
+        if (bgMusic) bgMusic.play().catch(e => console.log("Music blocked:", e));
+
+        // Fade out login box
+        const loginBox = document.getElementById("loginBox");
+        loginBox.classList.add("fade-out");
+
+        setTimeout(() => {
+          loginBox.style.display = "none"; // hide password box
+          const letterBox = document.getElementById("letterBox");
+          letterBox.style.display = "block"; // show letter
+          letterBox.classList.add("fadeIn"); // animate
+          startEffects(); // start hearts, sparkles, typewriter
+        }, 1000);
+      } else {
+        document.getElementById("error").innerText = "Wrong password 🥺";
+      }
+    }
+
+    function startEffects() {
+      // Floating hearts
+      const heartsContainer = document.querySelector(".hearts");
+      if (heartsContainer) {
+        for (let i = 0; i < 25; i++) {
+          const heart = document.createElement("span");
+          heart.style.left = Math.random() * 100 + "vw";
+          heart.style.animationDuration = (5 + Math.random() * 5) + "s";
+          heart.style.opacity = Math.random();
+          heartsContainer.appendChild(heart);
+        }
+      }
+
+      // Heart fireworks
+      function heartFireworks() {
+        if (!heartsContainer) return;
+        setInterval(() => {
+          const heartCount = 5;
+          for (let i = 0; i < heartCount; i++) {
+            const heart = document.createElement("span");
+            heart.style.left = Math.random() * 100 + "vw";
+            heart.style.width = "15px";
+            heart.style.height = "15px";
+            heart.style.opacity = 1;
+            heart.style.background = "red";
+            heart.style.transform = "rotate(45deg)";
+            heart.style.position = "absolute";
+            heartsContainer.appendChild(heart);
+
+            const xMove = (Math.random() - 0.5) * 200;
+            const yMove = - (50 + Math.random() * 150);
+
+            heart.animate([
+              { transform: `translate(0,0) rotate(45deg)`, opacity: 1 },
+              { transform: `translate(${xMove}px, ${yMove}px) rotate(45deg)`, opacity: 0 }
+            ], { duration: 1500, easing: "ease-out" });
+
+            setTimeout(() => heart.remove(), 1500);
+          }
+        }, 1000);
+      }
+
+      heartFireworks();
+
+      // Sparkle effect
+      const letter = document.getElementById("letterBox");
+      if (letter) {
+        setInterval(() => {
+          const sparkle = document.createElement("div");
+          sparkle.classList.add("sparkle");
+          sparkle.style.left = Math.random() * letter.offsetWidth + "px";
+          sparkle.style.top = Math.random() * letter.offsetHeight + "px";
+          letter.appendChild(sparkle);
+          setTimeout(() => sparkle.remove(), 1000);
+        }, 300);
+      }
+
+      // Typewriter
+      const text = "Happy 2nd Anniversary my love ❤️ Thank you for 2 beautiful years. You are my best decision, my safe place, and my forever.";
+      let i = 0;
+      function typeWriter() {
+        if (i < text.length) {
+          const el = document.getElementById("typewriter");
+          if (el) {
+            el.innerHTML += text.charAt(i);
+            i++;
+            setTimeout(typeWriter, 50);
+          }
+        }
+      }
+      typeWriter();
+    }
+  </script>
+
+</body>
+</html>

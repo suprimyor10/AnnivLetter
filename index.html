@@ -19,7 +19,7 @@
 <body>
 
   <!-- Background video -->
-  <video autoplay muted loop playsinline id="bgVideo">
+  <video autoplay muted loop id="bgVideo">
     <source src="yahoo.mp4" type="video/mp4">
   </video>
 
@@ -33,7 +33,7 @@
 
   <!-- Letter Box (hidden initially) -->
   <div class="letter" id="letterBox" style="display:none;">
-    <h1>Happy 2nd Anniversary </h1>
+    <h1>Happy 2nd Anniversary  </h1>
     <p id="typewriter"></p>
     <div class="hearts"></div>
   </div>
@@ -45,28 +45,38 @@
 
   <script>
     function checkPassword() {
-      const password = document.getElementById("password").value;
-      const correctPassword = "ily";
-      const bgMusic = document.getElementById("bgMusic");
+  const password = document.getElementById("password").value;
+  const correctPassword = "67";
+  const bgMusic = document.getElementById("bgMusic");
 
-      if (password === correctPassword) {
-        if (bgMusic) bgMusic.play().catch(e => console.log("Music blocked:", e));
+  // Array of different wrong password messages
+  const wrongMessages = [
+    "12345**???",
+    "⁶🤷🏻‍♀️⁷ ",
+    "70-3=? ",
+    "one more mistake u givin me 1k ",
+  
+  ];
 
-        const loginBox = document.getElementById("loginBox");
-        loginBox.classList.add("fade-out");
+  if (password === correctPassword) {
+    if (bgMusic) bgMusic.play().catch(e => console.log("Music blocked:", e));
 
-        setTimeout(() => {
-          loginBox.style.display = "none";
-          const letterBox = document.getElementById("letterBox");
-          letterBox.style.display = "block";
-          letterBox.classList.add("fadeIn");
-          startEffects();
-        }, 1000);
-      } else {
-        document.getElementById("error").innerText = "Wrong password 🥺";
-      }
-    }
+    const loginBox = document.getElementById("loginBox");
+    loginBox.classList.add("fade-out");
 
+    setTimeout(() => {
+      loginBox.style.display = "none";
+      const letterBox = document.getElementById("letterBox");
+      letterBox.style.display = "block";
+      letterBox.classList.add("fadeIn");
+      startEffects();
+    }, 1000);
+  } else {
+    // Pick a random message from the array
+    const randomIndex = Math.floor(Math.random() * wrongMessages.length);
+    document.getElementById("error").innerText = wrongMessages[randomIndex];
+  }
+}
     function startEffects() {
       const heartsContainer = document.querySelector(".hearts");
       if (heartsContainer) {
@@ -137,7 +147,7 @@ Thank you, Kristia Liejh Yap, for letting me love you and for making me feel lov
           if (el) {
             el.innerHTML += text.charAt(i) === '\n' ? '<br>' : text.charAt(i);
             i++;
-            setTimeout(typeWriter, 150); // slower typing
+            setTimeout(typeWriter, 130); // slower typing
           }
         }
       }
@@ -147,5 +157,3 @@ Thank you, Kristia Liejh Yap, for letting me love you and for making me feel lov
 
 </body>
 </html>
-
-

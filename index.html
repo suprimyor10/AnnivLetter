@@ -4,6 +4,18 @@
   <title>For My Love ❤️</title>
   <link rel="stylesheet" href="style.css">
   <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: black;
+    }
+
+    /* Password background image */
+    .password-bg {
+      background: url("tia.jpg") no-repeat center center fixed;
+      background-size: cover;
+    }
+
     /* Video background */
     #bgVideo {
       position: fixed;
@@ -12,11 +24,15 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
-      z-index: -2; /* behind hearts and letter */
+      z-index: -2;
+
+      opacity: 0;                 /* start invisible */
+      transition: opacity 2s ease; /* smooth fade */
     }
   </style>
 </head>
-<body>
+
+<body class="password-bg">
 
   <!-- Background video -->
   <video autoplay muted loop playsinline id="bgVideo">
@@ -31,9 +47,9 @@
     <p id="error"></p>
   </div>
 
-  <!-- Letter Box (hidden initially) -->
+  <!-- Letter Box -->
   <div class="letter" id="letterBox" style="display:none;">
-    <h1>Happy 2nd Anniversary  </h1>
+    <h1>Happy 2nd Anniversary</h1>
     <p id="typewriter"></p>
     <div class="hearts"></div>
   </div>
@@ -45,40 +61,54 @@
 
   <script>
     function checkPassword() {
-  const password = document.getElementById("password").value;
-  const correctPassword = "67";
-  const bgMusic = document.getElementById("bgMusic");
+      const password = document.getElementById("password").value;
+      const correctPassword = "67";
+      const bgMusic = document.getElementById("bgMusic");
 
-  // Array of different wrong password messages
-  const wrongMessages = [
-    "12345**???",
-    "⁶🤷🏻‍♀️⁷ ",
-    "70-3=? ",
-    "one more mistake u givin me 1k ",
-  
-  ];
+      const wrongMessages = [
+        "12345**???",
+        "⁶🤷🏻‍♀️⁷",
+        "70-3=?",
+        "one more mistake u givin me 1k"
+      ];
 
-  if (password === correctPassword) {
-    if (bgMusic) bgMusic.play().catch(e => console.log("Music blocked:", e));
+      if (password === correctPassword) {
 
-    const loginBox = document.getElementById("loginBox");
-    loginBox.classList.add("fade-out");
+        if (bgMusic) bgMusic.play().catch(e => console.log("Music blocked:", e));
 
-    setTimeout(() => {
-      loginBox.style.display = "none";
-      const letterBox = document.getElementById("letterBox");
-      letterBox.style.display = "block";
-      letterBox.classList.add("fadeIn");
-      startEffects();
-    }, 1000);
-  } else {
-    // Pick a random message from the array
-    const randomIndex = Math.floor(Math.random() * wrongMessages.length);
-    document.getElementById("error").innerText = wrongMessages[randomIndex];
-  }
-}
+        const bgVideo = document.getElementById("bgVideo");
+
+        // Remove image background
+        document.body.classList.remove("password-bg");
+
+        // Start video
+        bgVideo.play().catch(e => console.log("Video blocked:", e));
+
+        // Fade video in smoothly
+        setTimeout(() => {
+          bgVideo.style.opacity = "1";
+        }, 200);
+
+        const loginBox = document.getElementById("loginBox");
+        loginBox.classList.add("fade-out");
+
+        setTimeout(() => {
+          loginBox.style.display = "none";
+          const letterBox = document.getElementById("letterBox");
+          letterBox.style.display = "block";
+          letterBox.classList.add("fadeIn");
+          startEffects();
+        }, 1000);
+
+      } else {
+        const randomIndex = Math.floor(Math.random() * wrongMessages.length);
+        document.getElementById("error").innerText = wrongMessages[randomIndex];
+      }
+    }
+
     function startEffects() {
       const heartsContainer = document.querySelector(".hearts");
+
       if (heartsContainer) {
         for (let i = 0; i < 25; i++) {
           const heart = document.createElement("span");
@@ -91,9 +121,9 @@
 
       function heartFireworks() {
         if (!heartsContainer) return;
+
         setInterval(() => {
-          const heartCount = 5;
-          for (let i = 0; i < heartCount; i++) {
+          for (let i = 0; i < 5; i++) {
             const heart = document.createElement("span");
             heart.style.left = Math.random() * 100 + "vw";
             heart.style.width = "15px";
@@ -105,7 +135,7 @@
             heartsContainer.appendChild(heart);
 
             const xMove = (Math.random() - 0.5) * 200;
-            const yMove = - (50 + Math.random() * 150);
+            const yMove = -(50 + Math.random() * 150);
 
             heart.animate([
               { transform: `translate(0,0) rotate(45deg)`, opacity: 1 },
@@ -120,6 +150,7 @@
       heartFireworks();
 
       const letter = document.getElementById("letterBox");
+
       if (letter) {
         setInterval(() => {
           const sparkle = document.createElement("div");
@@ -140,21 +171,21 @@ I still remember our first date, the way you talked to me, when you brought me t
 
 Thank you, Kristia Liejh Yap, for letting me love you and for making me feel loved and happy every single day. I’ll always be right here when you need someone, and I’ll make sure I’m the first one there whenever you need me. I’ll be the one who loves you the most, protects you, shares your struggles, and celebrates your successes. I would give up everything just to be with you and make you happy. I will continue to love you until my last breath, mi amor.
       `;
+
       let i = 0;
+
       function typeWriter() {
         if (i < text.length) {
           const el = document.getElementById("typewriter");
-          if (el) {
-            el.innerHTML += text.charAt(i) === '\n' ? '<br>' : text.charAt(i);
-            i++;
-            setTimeout(typeWriter, 130); // slower typing
-          }
+          el.innerHTML += text.charAt(i) === '\n' ? '<br>' : text.charAt(i);
+          i++;
+          setTimeout(typeWriter, 130);
         }
       }
+
       typeWriter();
     }
   </script>
 
 </body>
 </html>
-

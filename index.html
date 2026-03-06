@@ -25,10 +25,43 @@
       height: 100%;
       object-fit: cover;
       z-index: -2;
-
-      opacity: 0;                 /* start invisible */
-      transition: opacity 2s ease; /* smooth fade */
+      opacity: 0;
+      transition: opacity 2s ease;
     }
+
+    /* MEMORY GAME */
+    #memoryGame {
+      text-align: center;
+      color: white;
+      padding-top: 40px;
+    }
+
+    .game-board {
+      width: 420px;
+      margin: auto;
+      display: grid;
+      grid-template-columns: repeat(4,1fr);
+      gap: 10px;
+    }
+
+    .card {
+  width: 100%;
+  padding-top: 100%; /* makes the card a perfect square */
+  position: relative; 
+  border-radius: 10px;
+  cursor: pointer;
+  overflow: hidden;
+  
+}
+
+.card img {
+  position: absolute;
+  top: -11%;
+  left: -9%;
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* fills the card completely */
+}
   </style>
 </head>
 
@@ -39,9 +72,21 @@
     <source src="yahoo.mp4" type="video/mp4">
   </video>
 
+  <!-- MEMORY GAME -->
+  <div id="memoryGame">
+    <h2 style="font-family: playfair display; font-size: 30px;" >Match Our Memories </h2>
+    <div class="game-board" id="gameBoard"></div>
+    <p id="gameMessage" style="display:none; font-size:22px; margin-top:20px;">
+      You unlocked the password: <b>67</b> ⁶🤷🏻‍♀️⁷
+    </p>
+    <button id="continueBtn" style="display:none; padding:10px 20px; margin-top:10px;" onclick="showLogin()">
+      Continue
+    </button>
+  </div>
+
   <!-- Password Box -->
-  <div class="login-box" id="loginBox">
-    <h2>Enter Our Special Password 💖</h2>
+  <div class="login-box" id="loginBox" style="display:none;">
+    <h2>Enter Special Password </h2>
     <input type="password" id="password" placeholder="Password">
     <button onclick="checkPassword()">Unlock</button>
     <p id="error"></p>
@@ -60,6 +105,66 @@
   </audio>
 
   <script>
+    // MEMORY GAME SCRIPT
+    const images = [
+      "pic1.jpg","pic1.jpg",
+      "pic2.jpg","pic2.jpg",
+      "pic3.jpg","pic3.jpg",
+      "pic4.jpg","pic4.jpg"
+    ];
+
+    let shuffled = images.sort(() => 0.5 - Math.random());
+    const board = document.getElementById("gameBoard");
+    let first = null, second = null, lock = false, matches = 0;
+
+    shuffled.forEach(img => {
+      const card = document.createElement("div");
+      card.className = "card";
+
+      const image = document.createElement("img");
+      image.src = "cover.png";
+
+      card.dataset.img = img;
+
+      card.onclick = () => {
+        if(lock || card === first) return;
+        image.src = img;
+
+        if(!first) { first = card; return; }
+
+        second = card;
+        lock = true;
+
+        if(first.dataset.img === second.dataset.img) {
+          matches++;
+          first = null;
+          second = null;
+          lock = false;
+          if(matches === 4) {
+            document.getElementById("gameMessage").style.display = "block";
+            document.getElementById("continueBtn").style.display = "inline-block";
+          }
+        } else {
+          setTimeout(() => {
+            first.querySelector("img").src = "cover.png";
+            second.querySelector("img").src = "cover.png";
+            first = null;
+            second = null;
+            lock = false;
+          },1000);
+        }
+      };
+
+      card.appendChild(image);
+      board.appendChild(card);
+    });
+
+    function showLogin(){
+      document.getElementById("memoryGame").style.display = "none";
+      document.getElementById("loginBox").style.display = "block";
+    }
+
+    // EXISTING PASSWORD FUNCTION
     function checkPassword() {
       const password = document.getElementById("password").value;
       const correctPassword = "67";
@@ -106,6 +211,7 @@
       }
     }
 
+    // EXISTING LETTER EFFECTS
     function startEffects() {
       const heartsContainer = document.querySelector(".hearts");
 

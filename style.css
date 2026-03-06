@@ -5,7 +5,7 @@
 body {
   margin: 0;
   font-family: 'Segoe UI', sans-serif;
-  background: linear-gradient(135deg, #EDE8D0, #fad0c4);
+  background-color: black;
   display: flex;
   justify-content: center;
   align-items: center;
